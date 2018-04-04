@@ -9,7 +9,7 @@ RSpec.describe ProductCatalog do
 
   describe '#product_list' do
     it 'displays a list of products with prices' do
-      expected_result = "coke => 100\nsprite => 100\norange_juice => 100\nlemon_juice => 100"
+      expected_result = "Coke => 100\nSprite => 100\nOrange Juice => 100\nLemon Juice => 100"
       expect(subject.product_list).to eq expected_result
     end
   end
@@ -25,34 +25,36 @@ RSpec.describe ProductCatalog do
 
   describe '#find_product' do
     it 'returns the product' do
-      expect(subject.find_product(:coke)).to eq({ coke: { price: 100, amount: 10 } })
+      expect(subject.find_product('Coke')).to be_a(Product)
     end
   end
 
   describe '#get_product' do
     let(:catalog) do
-      {
-        coke: { price: 100, amount: 10 },
-        sprite: { price: 100, amount: 1 },
-      }
+      [
+        Product.new("Coke", 100, 10),
+        Product.new("Sprite", 100, 1)
+      ]
     end
 
     subject { described_class.new(catalog: catalog) }
 
     it 'extract the product from the catalog and update amount' do
-      result = subject.get_product(:coke)
+      result = subject.get_product('Coke')
+      product = subject.find_product('Coke')
 
-      expect(subject.catalog[:coke][:amount]).to eq 9
-      expect(result).to eq({ price: 100, amount: 10 })
+      expect(product.amount).to eq 9
+      expect(result).to eq(product)
     end
 
     it 'removes the product from the catalog if no more left' do
-      subject.get_product(:sprite)
-      expect(subject.catalog[:sprite]).to eq nil
+      subject.get_product('Sprite')
+      product = subject.find_product('Sprite')
+      expect(product).to eq nil
     end
 
     it 'raises an exception if no product is found' do
-      expect{ subject.get_product(:fake) }.to raise_error(ProductCatalog::ProductNotFound)
+      expect{ subject.get_product('fake') }.to raise_error(ProductCatalog::ProductNotFound)
     end
   end
 end

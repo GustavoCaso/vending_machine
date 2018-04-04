@@ -1,12 +1,14 @@
+require_relative 'product'
+
 class ProductCatalog
   ProductNotFound = Class.new(StandardError)
 
-  DEFAULT_CATALOG = {
-    coke: { price: 100, amount: 10 },
-    sprite: { price: 100, amount: 10 },
-    orange_juice: { price: 100, amount: 10 },
-    lemon_juice: { price: 100, amount: 10 },
-  }
+  DEFAULT_CATALOG = [
+    Product.new('Coke', 100, 10),
+    Product.new('Sprite', 100, 10),
+    Product.new('Orange Juice', 100, 10),
+    Product.new('Lemon Juice', 100, 10)
+  ]
 
   attr_reader :catalog
 
@@ -15,8 +17,8 @@ class ProductCatalog
   end
 
   def product_list
-    catalog.each_with_object('') do |(product_name, info), acc|
-      acc << "#{product_name} => #{info[:price]}\n"
+    catalog.each_with_object('') do |product, acc|
+      acc << "#{product.name} => #{product.price}\n"
     end.strip
   end
 
@@ -24,13 +26,13 @@ class ProductCatalog
     catalog << product
   end
 
-  def find_product(product)
-    catalog.select { |key, info| key == product }
+  def find_product(product_name)
+    catalog.find { |product| product.name == product_name }
   end
 
   def get_product(product_name)
-    if product = catalog[product_name]
-      update_amount(product_name, product)
+    if product = find_product(product_name)
+      update_amount(product)
       product
     else
       raise ProductNotFound
@@ -39,13 +41,12 @@ class ProductCatalog
 
   private
 
-  def update_amount(product_name, product)
-    new_amount = product[:amount] - 1
-    if new_amount == 0
-      @catalog.delete(product_name)
+  def update_amount(product)
+    product.decrease_amount
+    if product.amount == 0
+      catalog.delete_at(catalog.index(product))
     else
-      new_product_info = product.merge(amount: new_amount)
-      @catalog = @catalog.merge(product_name => new_product_info)
+      catalog[catalog.index(product)] = product
     end
   end
 end
