@@ -28,4 +28,31 @@ RSpec.describe ProductCatalog do
       expect(subject.find_product(:coke)).to eq({ coke: { price: 100, amount: 10 } })
     end
   end
+
+  describe '#get_product' do
+    let(:catalog) do
+      {
+        coke: { price: 100, amount: 10 },
+        sprite: { price: 100, amount: 1 },
+      }
+    end
+
+    subject { described_class.new(catalog: catalog) }
+
+    it 'extract the product from the catalog and update amount' do
+      result = subject.get_product(:coke)
+
+      expect(subject.catalog[:coke][:amount]).to eq 9
+      expect(result).to eq({ price: 100, amount: 10 })
+    end
+
+    it 'removes the product from the catalog if no more left' do
+      subject.get_product(:sprite)
+      expect(subject.catalog[:sprite]).to eq nil
+    end
+
+    it 'raises an exception if no product is found' do
+      expect{ subject.get_product(:fake) }.to raise_error(ProductCatalog::ProductNotFound)
+    end
+  end
 end

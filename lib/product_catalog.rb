@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 class ProductCatalog
+  ProductNotFound = Class.new(StandardError)
 
   DEFAULT_CATALOG = {
     coke: { price: 100, amount: 10 },
@@ -25,5 +28,26 @@ class ProductCatalog
 
   def find_product(product)
     catalog.select { |key, info| key == product }
+  end
+
+  def get_product(product_name)
+    if product = catalog[product_name]
+      update_amount(product_name, product)
+      product
+    else
+      raise ProductNotFound
+    end
+  end
+
+  private
+
+  def update_amount(product_name, product)
+    new_amount = product[:amount] - 1
+    if new_amount == 0
+      @catalog.delete(product_name)
+    else
+      new_product_info = product.merge(amount: new_amount)
+      @catalog = @catalog.merge(product_name => new_product_info)
+    end
   end
 end
