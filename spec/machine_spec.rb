@@ -17,6 +17,21 @@ RSpec.describe Machine do
     end
   end
 
+  describe '#add_products' do
+    it 'add a product to the product catalog' do
+      product = instance_double('Product', name: 'Coke', price: 1, amount: 1)
+      expect(subject.product_catalog).to receive(:add_products).with(product)
+      subject.add_products(product)
+    end
+  end
+
+  describe '#product_list' do
+    it 'add a product to the product catalog' do
+      expect(subject.product_catalog).to receive(:product_list)
+      subject.product_list
+    end
+  end
+
   describe '#insert_money' do
     context 'when value is valid' do
       it 'adds the value' do

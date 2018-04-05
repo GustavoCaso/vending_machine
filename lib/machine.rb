@@ -4,6 +4,10 @@ require_relative 'product_catalog'
 require_relative 'coin_holder'
 
 class Machine
+  extend Forwardable
+
+  def_delegator :@product_catalog, :product_list
+
   attr_reader :product_catalog, :change, :total_amount
 
   def initialize(product_catalog: ProductCatalog.new, change: CoinHolder.new)
@@ -25,11 +29,7 @@ class Machine
   end
 
   def add_products(products)
-    product_catlog.store(products)
-  end
-
-  def display_products
-    product_catalog.product_list
+    product_catalog.add_products(products)
   end
 
   def order(product_name)
