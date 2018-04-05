@@ -25,9 +25,10 @@ class ProductCatalog
   def add_product(name, value)
     if (product = find_product(name))
       product.increase_amount
-      catalog[catalog.index(product)] = product
+      new_catalog = catalog[catalog.index(product)] = product
+      self.class.new(catalog: new_catalog)
     else
-      catalog << Product.new(name, value, 1)
+      self.class.new(catalog: catalog << Product.new(name, value, 1))
     end
   end
 
@@ -51,9 +52,10 @@ class ProductCatalog
   def update_catalog(product)
     product.decrease_amount
     if product.amount.zero?
-      catalog.delete_at(catalog.index(product))
+      self.class.new(catalog: catalog.delete_at(catalog.index(product)))
     else
-      catalog[catalog.index(product)] = product
+      new_catalog = catalog[catalog.index(product)] = product
+      self.class.new(catalog: new_catalog)
     end
   end
 end
