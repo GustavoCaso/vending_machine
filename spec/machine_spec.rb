@@ -20,9 +20,9 @@ RSpec.describe Machine do
   describe '#insert_money' do
     context 'when value is valid' do
       it 'adds the value' do
-        expect{
+        expect do
           subject.insert_money(2)
-        }.to change(subject.total_amount.coins, :count).by(1)
+        end.to change(subject.total_amount.coins, :count).by(1)
       end
     end
 
@@ -37,9 +37,9 @@ RSpec.describe Machine do
   describe '#fill_change' do
     context 'when value is valid' do
       it 'adds the value' do
-        expect{
+        expect do
           subject.fill_change(2)
-        }.to change(subject.change.coins, :count).by(1)
+        end.to change(subject.change.coins, :count).by(1)
       end
     end
 

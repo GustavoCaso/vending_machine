@@ -16,7 +16,7 @@ RSpec.describe Coin do
       let(:value) { 789 }
 
       it 'raises an exception' do
-        expect{ subject }.to raise_error(Coin::InvalidCoin)
+        expect { subject }.to raise_error(Coin::InvalidCoin)
       end
     end
   end

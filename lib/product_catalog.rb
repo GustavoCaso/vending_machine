@@ -8,7 +8,7 @@ class ProductCatalog
     Product.new('Sprite', 100, 10),
     Product.new('Orange Juice', 100, 10),
     Product.new('Lemon Juice', 100, 10)
-  ]
+  ].freeze
 
   attr_reader :catalog
 
@@ -45,7 +45,7 @@ class ProductCatalog
 
   def update_catalog(product)
     product.decrease_amount
-    if product.amount == 0
+    if product.amount.zero?
       catalog.delete_at(catalog.index(product))
     else
       catalog[catalog.index(product)] = product

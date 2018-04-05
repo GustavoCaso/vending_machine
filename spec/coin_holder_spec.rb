@@ -24,9 +24,9 @@ RSpec.describe CoinHolder do
 
     context 'when value is a valid coin value' do
       it 'adds a new coin' do
-        expect {
+        expect do
           subject.add(1)
-        }.to change(subject.coins, :count).by(1)
+        end.to change(subject.coins, :count).by(1)
       end
     end
 

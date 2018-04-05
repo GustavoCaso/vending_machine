@@ -4,7 +4,9 @@ class Product
   attr_reader :name, :price, :amount
 
   def initialize(name, price, amount)
-    @name, @price, @amount = name, price, amount
+    @name = name
+    @price = price
+    @amount = amount
   end
 
   def decrease_amount

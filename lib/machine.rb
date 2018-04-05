@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'product_catalog'
 require_relative 'coin_holder'
 
@@ -57,7 +58,7 @@ class Machine
   end
 
   def handle_product_and_change(product, product_price)
-    if change_to_return = get_change(product_price)
+    if (change_to_return = get_change(product_price))
       [dispense(product), change_to_return]
     else
       'Please contact the administrator there is not enough change for the transaction'

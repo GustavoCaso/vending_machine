@@ -29,14 +29,14 @@ RSpec.describe ProductCatalog do
     end
 
     it 'raises an exception if no product is found' do
-      expect{ subject.get_product('fake') }.to raise_error(ProductCatalog::ProductNotFound)
+      expect { subject.get_product('fake') }.to raise_error(ProductCatalog::ProductNotFound)
     end
   end
 
   describe '#dispense' do
-    let(:coke) { Product.new("Coke", 100, 10) }
-    let(:sprite) { Product.new("Sprite", 100, 1) }
-    let(:catalog) { [ coke , sprite] }
+    let(:coke) { Product.new('Coke', 100, 10) }
+    let(:sprite) { Product.new('Sprite', 100, 1) }
+    let(:catalog) { [coke, sprite] }
 
     subject { described_class.new(catalog: catalog) }
 
