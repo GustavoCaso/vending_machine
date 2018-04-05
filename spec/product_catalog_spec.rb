@@ -14,12 +14,31 @@ RSpec.describe ProductCatalog do
     end
   end
 
-  describe '#add_products' do
-    subject { described_class.new(catalog: []) }
+  describe '#add_product' do
+    context 'when is a new product' do
+      subject { described_class.new(catalog: []) }
 
-    it 'adds a new product to the catalog' do
-      subject.add_products('hello')
-      expect(subject.catalog).to include('hello')
+      it 'adds a new product to the catalog' do
+        subject.add_product('hello', 100)
+        expect(subject.catalog.count).to eq 1
+        expect(subject.catalog).to all(be_a(Product))
+      end
+    end
+
+    context 'when the product already exists' do
+      let(:product) { Product.new('Water', 100, 1) }
+      subject { described_class.new(catalog: [product]) }
+
+      it 'do not add a new product to the catalog' do
+        subject.add_product('Water', 100)
+        expect(subject.catalog.count).to eq 1
+      end
+
+      it 'increase the amount of the product' do
+        subject.add_product('Water', 100)
+        water = subject.catalog.first
+        expect(water.amount).to eq(2)
+      end
     end
   end
 

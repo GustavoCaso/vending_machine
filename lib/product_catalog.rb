@@ -22,8 +22,13 @@ class ProductCatalog
     end.strip
   end
 
-  def add_products(products)
-    catalog << products
+  def add_product(name, value)
+    if (product = find_product(name))
+      product.increase_amount
+      catalog[catalog.index(product)] = product
+    else
+      catalog << Product.new(name, value, 1)
+    end
   end
 
   def get_product(product_name)

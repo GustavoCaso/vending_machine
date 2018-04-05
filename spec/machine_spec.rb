@@ -19,9 +19,8 @@ RSpec.describe Machine do
 
   describe '#add_products' do
     it 'add a product to the product catalog' do
-      product = instance_double('Product', name: 'Coke', price: 1, amount: 1)
-      expect(subject.product_catalog).to receive(:add_products).with(product)
-      subject.add_products(product)
+      expect(subject.product_catalog).to receive(:add_product).with('Coke', 100)
+      subject.add_product(name: 'Coke', price: 100)
     end
   end
 

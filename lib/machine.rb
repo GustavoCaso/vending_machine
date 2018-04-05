@@ -28,8 +28,8 @@ class Machine
     add_coin(change, coin)
   end
 
-  def add_products(products)
-    product_catalog.add_products(products)
+  def add_product(name: , price: )
+    product_catalog.add_product(name, price)
   end
 
   def order(product_name)
