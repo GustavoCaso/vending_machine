@@ -13,9 +13,7 @@ class Machine
   end
 
   def insert_money(coin)
-    total_amount.add(coin)
-  rescue CoinHolder::InvalidCoinValue
-    'Not an accepted value'
+    add_coin(total_amount, coin)
   end
 
   def total_inserted
@@ -23,9 +21,7 @@ class Machine
   end
 
   def fill_change(coin)
-    change.add(coin)
-  rescue CoinHolder::InvalidCoinValue
-    'Not an accepted value'
+    add_coin(change, coin)
   end
 
   def add_products(products)
@@ -72,5 +68,11 @@ class Machine
 
   def get_change(product_price)
     change.redeem(total_inserted - product_price)
+  end
+
+  def add_coin(coin_holder, coin)
+    coin_holder.add(coin)
+  rescue CoinHolder::InvalidCoinValue
+    'Not an accepted value'
   end
 end
