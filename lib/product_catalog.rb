@@ -22,26 +22,28 @@ class ProductCatalog
     end.strip
   end
 
-  def add_product(product)
-    catalog << product
+  def add_products(products)
+    catalog << products
   end
+
+  def get_product(product_name)
+    product = find_product(product_name)
+    raise ProductNotFound unless product
+    product
+  end
+
+  def dispense(product)
+    update_catalog(product)
+    product
+  end
+
+  private
 
   def find_product(product_name)
     catalog.find { |product| product.name == product_name }
   end
 
-  def get_product(product_name)
-    if product = find_product(product_name)
-      update_amount(product)
-      product
-    else
-      raise ProductNotFound
-    end
-  end
-
-  private
-
-  def update_amount(product)
+  def update_catalog(product)
     product.decrease_amount
     if product.amount == 0
       catalog.delete_at(catalog.index(product))

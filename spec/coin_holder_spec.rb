@@ -44,4 +44,17 @@ RSpec.describe CoinHolder do
       expect(subject.total).to eq 388
     end
   end
+
+  describe '#redeem' do
+    let(:coin) { instance_double('Coin', value: 1) }
+    subject { described_class.new(coins: [coin]) }
+
+    it 'extract the coin' do
+      expect(subject.redeem(1)).to eq coin
+    end
+
+    it 'returns nil if no coin is found' do
+      expect(subject.redeem(2)).to eq nil
+    end
+  end
 end

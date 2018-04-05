@@ -16,12 +16,17 @@ class CoinHolder
 
   def add(coin_value)
     coin = Coin.new(coin_value)
-    coins << coin_value
+    coins << coin
   rescue Coin::InvalidCoin
     raise InvalidCoinValue
   end
 
   def total
     coins.inject(0) { |acc, coin| acc + coin.value }
+  end
+
+  def redeem(value)
+    index = coins.index { |coin| coin.value == value }
+    index ? coins.delete_at(index) : nil
   end
 end
