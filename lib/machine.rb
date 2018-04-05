@@ -1,26 +1,39 @@
 # frozen_string_literal: true
 require_relative 'product_catalog'
+require_relative 'coin_holder'
 
 class Machine
-  attr_reader :products, :coins, :total_amount
+  attr_reader :products, :change, :total_amount
 
-  def initialize(products: nil, coins: nil)
+  def initialize(products: nil, change: CoinHolder.new)
     @products = products
-    @coins = coins
-    @total_amount = 0
+    @change = change
+    @total_amount = CoinHolder.new(coins: [])
   end
 
-  def insert_money(amount)
-    @total_amount += amount
+  def insert_money(coin)
+    total_amount.add(coin)
+  rescue CoinHolder::InvalidCoinValue
+    'Not an accepted value'
+  end
+
+  def total_inserted
+    total_amount.total
+  end
+
+  def fill_change(coin)
+    change.add(coin)
+  rescue CoinHolder::InvalidCoinValue
+    'Not an accepted value'
   end
 
   def order(product)
-    [products.find(product), change]
+    [products.find(product), return_change]
   end
 
   private
 
-  def change
-    coins.call
+  def return_change
+    change.call
   end
 end
