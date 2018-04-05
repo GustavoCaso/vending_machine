@@ -1,3 +1,5 @@
+require_relative '../lib/machine'
+
 RSpec.describe Machine do
   subject { described_class.new }
 

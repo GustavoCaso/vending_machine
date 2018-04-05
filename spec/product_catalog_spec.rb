@@ -1,3 +1,5 @@
+require_relative '../lib/product_catalog'
+
 RSpec.describe ProductCatalog do
   subject { described_class.new }
 
