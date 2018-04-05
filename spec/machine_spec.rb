@@ -74,9 +74,15 @@ RSpec.describe Machine do
         expect(subject.order('Coke')).to eq([product])
       end
 
-      it 'removes the money inserted' do
+      it 'resets the money inserted' do
         subject.order('Coke')
         expect(subject.total_inserted).to eq(0)
+      end
+
+      it 'moves the money inserted to the change' do
+        expect {
+          subject.order('Coke')
+        }.to change(subject.change.coins, :count).by(1)
       end
     end
 
@@ -98,9 +104,14 @@ RSpec.describe Machine do
         expect(subject.order('Coke')).to eq([product, coin])
       end
 
-      it 'removes the money inserted' do
+      it 'resets the money inserted' do
         subject.order('Coke')
         expect(subject.total_inserted).to eq(0)
+      end
+
+      it 'moves the money inserted to the change' do
+        subject.order('Coke')
+        expect(subject.change.coins.count).to eq(2)
       end
     end
 

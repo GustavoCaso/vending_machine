@@ -57,4 +57,21 @@ RSpec.describe CoinHolder do
       expect(subject.redeem(2)).to eq nil
     end
   end
+
+  describe '#combine' do
+    let(:coin) { instance_double('Coin', value: 1) }
+    let(:coin2) { instance_double('Coin', value: 2) }
+    let(:coin_holder) { described_class.new(coins: [coin2]) }
+    subject { described_class.new(coins: [coin]) }
+
+    it 'returns a new coin holder with the coins form both' do
+      result = subject.combine(coin_holder)
+      expect(result).to_not eq subject
+      expect(result.coins).to include(coin, coin2)
+    end
+
+    it 'returns nil if no coin is found' do
+      expect(subject.redeem(2)).to eq nil
+    end
+  end
 end

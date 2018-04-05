@@ -62,8 +62,17 @@ class Machine
   end
 
   def dispense(product)
-    @total_amount = CoinHolder.new(coins: [])
+    move_money_to_change
+    reset_total_amount
     product_catalog.dispense(product)
+  end
+
+  def move_money_to_change
+    @change = change.combine(total_amount)
+  end
+
+  def reset_total_amount
+    @total_amount = CoinHolder.new(coins: [])
   end
 
   def get_change(product_price)

@@ -30,4 +30,9 @@ class CoinHolder
     index = coins.index { |coin| coin.value == value }
     index ? coins.delete_at(index) : nil
   end
+
+  def combine(coin_holder)
+    new_coins = coins.concat(coin_holder.coins)
+    self.class.new(coins: new_coins)
+  end
 end
